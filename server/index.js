@@ -29,6 +29,9 @@ uwebsockets.App().any('/*', (res, req) => {
         else if (p.endsWith('.ico')) {
             contentType = 'image/x-icon';
         }
+        else if(p.endsWith('.ttf')) {
+            contentType = 'font/ttf';
+        }
         res.writeHeader('Content-Type', contentType);
         res.end(fs.readFileSync(`./client${p}`));
     } else {

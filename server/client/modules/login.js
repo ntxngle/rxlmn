@@ -48,7 +48,6 @@ export function loginToken(){
                 name: user.user.username,
                 email: user.user.email
             });
-            applyUserInfo(1);
             switchPage(1);
         }).catch(err => {
             console.error(err);

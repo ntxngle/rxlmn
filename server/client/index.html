@@ -2,12 +2,13 @@
 <html>
     <head>
         <title>Server</title>
+        <meta charset="utf-8">
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/acebase@latest/dist/browser.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/acebase-client@latest/dist/browser.min.js"></script>
-        <div class="page fullcenter">
+        <div class="page fullcenter hidden">
             <h1>88888888 (#NcZ03KNfmra#u19)</h1>
             <div>
                 <input type="text" placeholder="@palmbeachschools.org" id="email">
@@ -17,7 +18,129 @@
             </div>
         </div>
         <div class="page hidden">
-            <h1>Hello, <span class="userinfo-name"></span></h1>
+            <div class="navbar">
+                <button class="nav-home">&nbsp;&nbsp;home</button>
+                <button class="nav-search">  search</button>
+                <button class="nav-add">  add contact</button>
+                <button class="nav-schema">  schema editor</button>
+                <button class="nav-help">  help</button>
+                <button class="nav-account">signed in as <span class="userinfo-name"></span> </button>
+            </div>
+            <div class="bin">
+                <h1>Hello, <span class="userinfo-name"></span></h1>
+                <p>APPNAME is a professional partner relationship manager designed specifically to be over-the-top fast, extremely flexible, and most importantly, reliable.</p>
+                <p>It derives its speed from using an indexed database, which can return thousands of results in miliseconds.</p>
+                <p>True flexiblity can only be achived if the user can modify data structures to their will and not forced to a specific template. Naturally, APPNAME implements this by allowing users to edit the ENTIRE schema of their data.</p>
+                <p>Critically, the app can function in any enviroment; online, offline, or slow connection. This means regardless of connection, APPNAME continues to function exactly like normal, and will upload your changes as soon as it goes back online.</p>
+            </div>
+        </div>
+        <div class="page hidden fullcenter">
+            <h1>Verfiying...</h1>
+        </div>
+        <div class="page hidden">
+            <div class="navbar">
+                <button class="nav-home">&nbsp;&nbsp;home</button>
+                <button class="nav-search">  search</button>
+                <button class="nav-add">  add contact</button>
+                <button class="nav-schema">  schema editor</button>
+                <button class="nav-help">  help</button>
+                <button class="nav-account">signed in as <span class="userinfo-name"></span> </button>
+            </div>
+            <div class="bin">
+                <h1>Schema Editor <button>how do I use this?</button></h1>
+                <p>Edit and migrate data schemas</p>
+                <select>
+                    <option selected>Select scheme</option>
+                    <option>Donor</option>
+                    <option>Vendor</option>
+                    <option>Employer</option>
+                    <option>Individual</option>
+                </select>
+                <button>or create one</button>
+            </div>
+        </div>
+        <div class="page hidden">
+            <div class="navbar">
+                <button class="nav-home">&nbsp;&nbsp;home</button>
+                <button class="nav-search">  search</button>
+                <button class="nav-add">  add contact</button>
+                <button class="nav-schema">  schema editor</button>
+                <button class="nav-help">  help</button>
+                <button class="nav-account">signed in as <span class="userinfo-name"></span> </button>
+            </div>
+            <div class="bin">
+                <h1>Database Search <button>how do I use this?</button></h1>
+                <div class="mainsearch">
+                    <div class="optbuilder">
+                        <h3>Search Operations</h3>
+                        <!--
+                        <div class="search-operation">
+                            <button>X</button><p>FILTER: "total donated" > 2000</p>
+                        </div>
+                        -->
+                        <div class="search-operation no-op">
+                            <button> </button><p>no operations. try adding one from below</p>
+                        </div>
+                        <button>Execute</button>
+                        <p id="search-validation">input is correct</p>
+                    </div>
+                    <div class="searchopbox">
+                        <h2>Filter</h2>
+                        <p>&nbsp;data via ranges, matching, and excluding</p><br>
+                        <select>
+                            <option>Phone Number</option>
+                            <option>KEY NAME</option>
+                            <option>KEY NAME</option>
+                            <option>KEY NAME</option>
+                        </select>
+                        <select title="Select a key to compare first">
+                            <option value="==">Equal</option>
+                            <option value="!=">Not equal</option>
+                            <option value="&lt;">Less than</option>
+                            <option value="&lt;=">Less than or equal to</option>
+                            <option value="&gt;">Greater than</option>
+                            <option value="&gt;=">Greater than or equal to</option>
+                            <option value="like">Matches pattern</option>
+                            <option value="!like">Does not match pattern</option>
+                            <option value="between">Between</option>
+                            <option value="!between">Not between</option>
+                            <option value="exists">Exists (key exists)</option>
+                            <option value="!exists">Does not exist (key does not exist)</option>
+                        </select>
+                        <input type="text" placeholder="value">
+                        <br>
+                        <p>Filter help: Select a filter to see help for it.</p>
+                        <br>
+                        <button id="search-add">Add filter</button>
+                    </div>
+                    <div class="searchopbox">
+                        <h2>Sort</h2>
+                        <p>&nbsp;data by a specific key</p><br>
+                        <select>
+                            <option>Phone Number</option>
+                            <option>KEY NAME</option>
+                            <option>KEY NAME</option>
+                            <option>KEY NAME</option>
+                        </select>
+                        <br>
+                        <input id="ascclk" type="radio" name="sort" value="asc" checked><label for="ascclk">Ascending</label><br>
+                        <input id="dscclk" type="radio" name="sort" value="desc"><label for="dscclk">Descending</label><br>
+                        <button id="search-add">Add sort</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="page hidden">
+            <div class="navbar">
+                <button class="nav-home">&nbsp;&nbsp;home</button>
+                <button class="nav-search">  search</button>
+                <button class="nav-add">  add contact</button>
+                <button class="nav-schema">  schema editor</button>
+                <button class="nav-help">  help</button>
+                <button class="nav-account">signed in as <span class="userinfo-name"></span> </button>
+            </div>
+            <!--NEW-->
         </div>
         <script type="importmap">
             {

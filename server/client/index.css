@@ -1,5 +1,9 @@
+@font-face {
+    font-family: 'Iosevka';
+    src: url(iosevka.ttf);
+}
 :root{
-    --global-font: 'Courier New', Courier, monospace;
+    --global-font: "Iosevka", Courier, monospace;
 }
 body,html{
     margin:0;
@@ -63,4 +67,151 @@ h1{
 }
 .hidden{
     display: none;
+}
+/* COMMON */
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    padding: 0.5em 1em;
+    font-family: var(--global-font);
+}
+.navbar button{
+    background-color: #333;
+    color: #fff;
+    border: none;
+    font-family: "Iosevka";
+    font-size: 1.2em;
+    cursor: pointer;
+    font-size: 1.3em;
+}
+.navbar>div>p{
+    display: inline-block;
+    margin: 0px;
+}
+.page>.bin{
+    padding: 0.5em;
+}
+.bin p,.bin h1{
+    margin: 0px;
+    font-family: var(--global-font);
+}
+.bin input{
+    font-family: var(--global-font);
+    border: 1px solid #333;
+    background-color: #fff;
+    border-radius: 6px;
+    width: 500px;
+    font-size: 1em;
+    padding: 0.2em
+}
+.bin input:focus{
+    outline: none;
+    border: 1px solid black;
+}
+.bin select{
+    font-family: var(--global-font);
+    border: 1px solid #333;
+    background-color: #fff;
+    border-radius: 6px;
+    width: 500px;
+    font-size: 1em;
+    padding: 0.2em
+}
+.bin h1>button{
+    background-color: transparent;
+    color: #333;
+    border: none;
+    font-family: "Iosevka";
+    cursor: pointer;
+    font-style: italic;
+    font-size: 0.5em;
+}
+.bin button{
+    border: 1px solid #333;
+    background-color: #fff;
+    border-radius: 5px;
+    font-family: var(--global-font);
+    font-size: 1em;
+    padding: 0.2em;
+    cursor: pointer;
+}
+
+/* SEARCH */
+.searchopbox{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+.searchopbox h2{
+    margin: 0px 0px 0.5em;
+    display: inline-block;
+    font-family: var(--global-font);
+}
+.searchopbox button{
+    margin: 0.5em 0px 0px;
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-family: "Iosevka";
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.searchopbox input[type="radio"]{
+    margin: 0px 0.5em 0px 0px;
+    width: max-content;
+}
+.searchopbox label{
+    font-family: var(--global-font);
+    font-size: 0.9em;
+    cursor: pointer;
+}
+.searchopbox p{
+    display: inline-block;
+}
+.mainsearch h3{
+    margin: 0px 0px 0.5em;
+    font-family: var(--global-font);
+}
+.optbuilder{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+.optbuilder>button{
+    margin: 0.5em 0px 0px;
+    background-color: transparent;
+    color: #333;
+    border: 1px solid #333;
+    border-radius: 5px;
+    font-family: "Iosevka";
+    font-size: 1.2em;
+    cursor: pointer;
+}
+.optbuilder>p{
+    margin: 0px;
+    font-family: var(--global-font);
+    font-size: 0.9em;
+}
+.search-operation{
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: max-content;
+    padding-right: 0.5em;
+}
+.search-operation>button{
+    background-color: transparent;
+    color: #333;
+    border: none;
+    font-family: "Iosevka";
+    font-size: 1.2em;
+    cursor: pointer;
+    width: 2em;
 }
