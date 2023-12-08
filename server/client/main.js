@@ -1,5 +1,6 @@
 import { login, loginToken } from 'login';
-import { switchPage } from 'ui';
+import { switchPage, popUp, interaction } from 'ui';
+import { eventTrigger } from 'filter';
 if(localStorage.getItem('token') !== undefined) {
     setTimeout(loginToken, 200);
     switchPage(2);
@@ -25,3 +26,15 @@ nav = document.getElementsByClassName("nav-schema");
 for(let i = 0; i < nav.length; i++){
     nav[i].addEventListener("click", function(){switchPage(3)});
 }
+window.searchEvent = function(e,t){
+    eventTrigger(e,t);
+}
+window.helpPop = function(n){
+    popUp(n);
+}
+document.body.addEventListener("keypress", function(e){
+    interaction();
+});
+document.body.addEventListener("click", function(e){
+    interaction();
+});

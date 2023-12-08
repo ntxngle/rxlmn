@@ -68,6 +68,32 @@ h1{
 .hidden{
     display: none;
 }
+
+/* POPUP */
+.popup{
+    position: fixed;
+    height: max-content;
+    width: 50%;
+    top: 25%;
+    left: 25%;
+    background-color: #f5f5f5;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 1em;
+    box-shadow: 1px 1px 5px 1px #333;
+}
+.popup>h1,.popup>p{
+    margin: 0px;
+    font-family: var(--global-font);
+}
+.popup>.dismiss{
+    font-size: 0.8em;
+    color: #333;
+    cursor: pointer;
+    text-align: center;
+    font-style: italic;
+}
+
 /* COMMON */
 .navbar{
     display: flex;
@@ -214,4 +240,40 @@ h1{
     font-size: 1.2em;
     cursor: pointer;
     width: 2em;
+}
+
+/* SCHEMA */
+.schemaeditor{
+    margin-top: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.schema{
+    padding: 0.5em;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+.schema span{
+    font-family: var(--global-font);
+    font-size: 1.2em;
+    margin-right: 0.5em;
+}
+.schema button:not(:last-child){
+    background-color: transparent;
+    border: 0px;
+    font-size: 1.2em;
+    vertical-align: center;
+}
+.schema button:last-child{
+    font-size: 1.2em;
+    padding: 0px;
+    width: 5vw;
+    margin-top: 0.2em;
+}
+.schema input{
+    width: 20vw;
+}
+.schema select{
+    width: 10vw;
+    margin-bottom: 0.3em;
 }
