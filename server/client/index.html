@@ -6,8 +6,8 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/acebase@latest/dist/browser.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/acebase-client@latest/dist/browser.min.js"></script>
+        <script src="libs/acebase.min.js"></script>
+        <script src="libs/acebase-client.min.js"></script>
         <div class="page fullcenter hidden">
             <h1>88888888 (#NcZ03KNfmra#u19)</h1>
             <div>
@@ -49,30 +49,14 @@
             <div class="bin">
                 <h1>Schema Editor <button onclick="helpPop(1);">how do I use this?</button></h1>
                 <p>Edit and migrate data schemas</p>
-                <select>
-                    <option selected>Select scheme</option>
-                    <option>Donor</option>
-                    <option>Vendor</option>
-                    <option>Employer</option>
-                    <option>Individual</option>
-                </select>
-                <button>or create one</button>
+                <select autocomplete="off" onchange="editorEvent('editSchema',this)" class="dboptions" data-name="allschemas"></select>
+                <button onclick="editorEvent('new');">or create one</button>
                 <div class="schemaeditor">
-                    <h1>Employer</h1>
-                    <p>last edited 1:37AM by WALL666, created 6:66PM by FOLLOW</p>
-                    <div class="schema">
-                        <button>X</button><span></span><input type="text" placeholder="key name" value="name"><span>&nbsp;:&nbsp;</span><select>
-                            <option>text</option>
-                            <option>number</option>
-                            <option>date</option>
-                        </select><br>
-                        <button>X</button><span></span><input type="text" placeholder="key name" value="name"><span>&nbsp;:&nbsp;</span><select>
-                            <option>text</option>
-                            <option>number</option>
-                            <option>date</option>
-                        </select><br>
-                        <button>+</button>
-                    </div>
+                    <h1>No Schema Loaded</h1>
+                    <p></p>
+                    <div class="schema"></div>
+                    <button onclick="editorEvent('saveSchema');">Save</button>        
+                    <p id="schema-validation">input is correct</p>            
                 </div>
             </div>
         </div>
@@ -92,7 +76,7 @@
                         <h3>Search Operations</h3>
                         <!--
                         <div class="search-operation">
-                            <button>X</button><p>FILTER: "total donated" > 2000</p>
+                            <button></button><p>FILTER: "total donated" > 2000</p>
                         </div>
                         -->
                         <div class="search-operation no-op">
@@ -104,13 +88,9 @@
                     <div class="searchopbox">
                         <h2>Filter</h2>
                         <p>&nbsp;data via ranges, matching, and excluding</p><br>
-                        <select>
-                            <option>Phone Number</option>
-                            <option>KEY NAME</option>
-                            <option>KEY NAME</option>
-                            <option>KEY NAME</option>
-                        </select>
-                        <select onchange="searchEvent('filterHelp',this);" title="Select a key to compare first">
+                        <select class="dboptions" data-name="allkeys"></select>
+                        <select onchange="searchEvent('filterHelp',this);" autocomplete="off" title="Select a key to compare first">
+                            <option value="placeholder" selected disabled>Select filter</option>
                             <option value="==">Equal</option>
                             <option value="!=">Not equal</option>
                             <option value="&lt;">Less than</option>
@@ -124,7 +104,7 @@
                             <option value="exists">Exists (key exists)</option>
                             <option value="!exists">Does not exist (key does not exist)</option>
                         </select>
-                        <input type="text" placeholder="value">
+                        <input type="text" autocomplete="off" placeholder="value">
                         <br>
                         <p id="search-filterhelp">Filter help: Select a filter to see help for it.</p>
                         <br>
@@ -133,19 +113,17 @@
                     <div class="searchopbox">
                         <h2>Sort</h2>
                         <p>&nbsp;data by a specific key</p><br>
-                        <select>
-                            <option>Phone Number</option>
-                            <option>KEY NAME</option>
-                            <option>KEY NAME</option>
-                            <option>KEY NAME</option>
-                        </select>
+                        <select class="dboptions" data-name="allkeys"></select>
                         <br>
                         <input id="ascclk" type="radio" name="sort" value="asc" checked><label for="ascclk">Ascending</label><br>
                         <input id="dscclk" type="radio" name="sort" value="desc"><label for="dscclk">Descending</label><br>
-                        <button id="search-add">Add sort</button>
+                        <button id="search-add" onclick="searchEvent('sortSubmit',this);">Add sort</button>
+                    </div>
+                    <div class="searchopbox" id="searchresults">
+                        <h2>Results</h2>
+                        
                     </div>
                 </div>
-
             </div>
         </div>
         <div class="page hidden">
@@ -157,13 +135,19 @@
                 <button class="nav-help">  help</button>
                 <button class="nav-account">signed in as <span class="userinfo-name"></span> </button>
             </div>
-            <!--NEW-->
+            <div class="bin">
+                <h1>Add Contact <button onclick="helpPop(2);">how do I use this?</button></h1>
+                <p>add a new contact to the database</p>
+                <select autocomplete="off" onchange="addEvent('switchSchema', this);" class="dboptions" data-name="allschemas"></select>
+                <div class="addForm"></div>
+                <button onclick="addEvent('submit');">Submit</button><p id="add-validation">input is correct</p>
+            </div>
         </div>
         <div class="popup hidden">
             <h1>Help</h1>
             <p>The database search works by applying a series of user-given filters to the entire set.</p>
             <p>Some filters can only be applied to numbers. (less than, greater than, etc)</p>
-            <p>Filters are applied to either one key, or all of them.</p>
+            <p>Filters are applied to one key.</p>
             <p class="dismiss">(click anywhere to dismiss)</p>
         </div>
         <div class="popup hidden">
@@ -171,7 +155,13 @@
             <p>The schema editor allow you to modify and create new custom types of organizations.</p>
             <p>It is basically a template per type of organization, so that data structure is standardized, yet flexible.</p>
             <p>For example, let's say a new law that requires all donors to have a specific form. Instead of incorrectly putting a link to the form in an unreleated field, the editable schema allows you to simply add this field.</p>
-            >
+            <p class="dismiss">(click anywhere to dismiss)</p>
+        </div>
+        <div class="popup hidden">
+            <h1>Help</h1>
+            <p>This utility is for the creation of new partners in adherance with a chosen schema.</p>
+            <p>It is a simple form that allows you to enter data for each field in the schema.</p>
+            <p class="dismiss">(click anywhere to dismiss)</p>
         </div>
         <script type="importmap">
             {
@@ -180,7 +170,9 @@
                     "db": "./modules/db.js",
                     "ui": "./modules/ui.js",
                     "userinfo": "./modules/userinfo.js",
-                    "filter": "./modules/filter.js"
+                    "filter": "./modules/filter.js",
+                    "editor": "./modules/editor.js",
+                    "add": "./modules/add.js"
                 }
             }
         </script>

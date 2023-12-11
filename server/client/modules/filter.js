@@ -1,3 +1,4 @@
+import db from "db";
 const filterhelp = {
     "==": "Equal to (Matches the exact value)",
     "!=": "Not equal to (Matches all values except the exact value)",
@@ -13,13 +14,17 @@ const filterhelp = {
     "!exists": "Does not exist (Matches all values that are null)"
 };
 let operations = [];
-export function eventTrigger(e,t){
+export async function eventTrigger(e,t){
     if(e=="filterHelp"){
         document.getElementById("search-filterhelp").textContent = filterhelp[t.value];
     } else if(e=="filterSubmit"){
         let key = t.parentElement.getElementsByTagName("select")[0].value;
         let op = t.parentElement.getElementsByTagName("select")[1].value;
         let val = t.parentElement.getElementsByTagName("input")[0].value;
+        if((key+val+op).indexOf("placeholder") != -1){
+            document.getElementById("search-validation").textContent = "Please select a key, operator, and value";
+            return;
+        }
         if(val == "" && op != "exists" && op != "!exists"){
             document.getElementById("search-validation").textContent = "Please enter a value";
             return;
@@ -27,16 +32,56 @@ export function eventTrigger(e,t){
         console.log("[FILTER] Key: "+key+" Op: "+op+" Val: "+val);
         operations.push({"key":key,"op":op,"val":val});
         showOperations();
-    } else if("execute"){
+    } else if(e=="execute"){
         if(operations.length == 0){
             document.getElementById("search-validation").textContent = "No operations to execute";
             return;
         }
         document.getElementById("search-validation").textContent = "erm...something is POPPING !!  ! !! ! ! !";
+        let total = await db.query("/partners")
+        for(let i in operations){
+            if(operations[i].op=="sort"){
+                total = await total.sort(operations[i].key,operations[i].val);
+            } else {
+                total = await total.filter(operations[i].key,operations[i].op,operations[i].val);
+            }
+        }
+        total.get().then(function(snapshots){    
+            let tmp = [];
+            for(let i in snapshots){
+                tmp.push(snapshots[i].val());
+            }
+            document.getElementById("search-validation").textContent = "Found "+tmp.length+" results";
+            console.log(tmp);
+            //show results
+            document.getElementById("searchresults").innerHTML = "";
+            for(let i in tmp){
+                let tmpd = document.createElement("div");
+                for(let k in tmp[i]){
+                    tmpd.innerHTML += `<div><label>${k}</label><p>${tmp[i][k]}</p></div>`;
+                }
+                document.getElementById("searchresults").appendChild(tmpd);
+            }
+
+        });
+    } else if(e=="sortSubmit"){
+        let key = t.parentElement.getElementsByTagName("select")[0].value;
+        let val = t.parentElement.getElementsByTagName("input")[0].checked ? true : false;
+        if(key == "placeholder"){
+            document.getElementById("search-validation").textContent = "Please select a key";
+            return;
+        }
+        if(key == ""){
+            document.getElementById("search-validation").textContent = "Please select a key";
+            return;
+        }
+        console.log("[SORT] Key: "+key+" Op: "+"sort", "Val: "+val);
+        operations.push({"key":key,"op":"sort","val":val});
+        showOperations();
     }
 }
 function showOperations(){
-    let template = `<div class="search-operation"><button onclick="deleteSearch(%%%);">X </button><p>FILTER: $$$</p></div>`;
+    let template = `<div class="search-operation"><button onclick="deleteSearch(%%%);"> </button><p>FILTER: $$$</p></div>`;
     let ops = document.getElementsByClassName("search-operation");
     for(let i = ops.length-1; i >= 0; i--){
         ops[i].parentElement.removeChild(ops[i]);

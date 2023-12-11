@@ -241,6 +241,15 @@ h1{
     cursor: pointer;
     width: 2em;
 }
+#searchresults>div{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+}
+#searchresults div>label{
+    margin-right: 0.5em;
+}
 
 /* SCHEMA */
 .schemaeditor{
@@ -276,4 +285,37 @@ h1{
 .schema select{
     width: 10vw;
     margin-bottom: 0.3em;
+}
+.schemaeditor>button{
+    margin: 1em;
+}
+.schemaeditor>p{
+    display: inline-block;
+}
+
+/* ADD */
+.addForm label{
+    font-family: var(--global-font);
+    font-size: 1.2em;
+    margin-right: 0.5em;
+}
+.addForm input{
+    font-family: var(--global-font);
+    border: 1px solid #333;
+    background-color: #fff;
+    border-radius: 6px;
+    width: 500px;
+    font-size: 1em;
+    padding: 0.2em
+}
+.addForm input:focus{
+    outline: none;
+    border: 1px solid black;
+}
+.addForm{
+    margin: 1em;
+}
+#add-validation{
+    margin-left: 0.5em;
+    display: inline-block;
 }
