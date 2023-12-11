@@ -1,4 +1,6 @@
+//interactive stuff from editor page
 import db from "db";
+//import schema to work on
 export function importSchma(name,meta,ob){
     loadedSchema = ob;
     document.getElementsByClassName("schemaeditor")[0].getElementsByTagName("h1")[0].textContent = name;
@@ -7,6 +9,7 @@ export function importSchma(name,meta,ob){
 }
 export function editorEvent(e,t){
     if(e=="editSchema"){
+        //selected schema from dropdown
         if(t.value=="Select Schema"){
             return;
         }
@@ -18,6 +21,7 @@ export function editorEvent(e,t){
             importSchma(t.value,"schema",snap.val());
         });
     } else if(e == "new"){
+        //init new schema
         let name = window.prompt("New Schema Name");
         if(name == null) return;
         if(name.length < 3){
@@ -34,6 +38,7 @@ export function editorEvent(e,t){
         }
         importSchma(name,"Newly created",{"name":"string"});
     } else if(e == "saveSchema"){
+        //save schema to db
         if(Object.keys(loadedSchema).length == 0){
             document.getElementById("schema-validation").textContent = "Schema must have at least one key";
             return 0;
@@ -42,6 +47,7 @@ export function editorEvent(e,t){
         let inputs = document.getElementsByClassName("schema")[0].getElementsByTagName("input");
         let selects = document.getElementsByClassName("schema")[0].getElementsByTagName("select");
         for(let i = 0; i < inputs.length; i++){
+            //basic validation stuff
             if(inputs[i].value.length < 3){
                 document.getElementById("schema-validation").textContent = "Key name must be at least 3 characters long";
                 return 0;
@@ -62,10 +68,11 @@ export function editorEvent(e,t){
         document.getElementById("schema-validation").textContent = "Saved as \"" + document.getElementsByClassName("schemaeditor")[0].getElementsByTagName("h1")[0].textContent+"\"";
         return 1;
     } else if(e == "close"){
-        console.log("do hit");
+        //close schema
         delete loadedSchema[t];
         loadSchema();
     } else if(e == "add"){
+        //add new key
         if(!editorEvent("saveSchema")) return;
         loadedSchema["new"+Math.round(Math.random()*100)] = "text";
         loadSchema();
@@ -78,6 +85,7 @@ for(let i in types){
     optlist += `<option value="${types[i]}">${types[i]}</option>`;
 }
 function loadSchema(){
+    //render schema in editor
     let br = document.createElement("br");
     let template = `<button onclick="editorEvent('close','$$$');"></button><span></span><input type="text" placeholder="key name" value="%%%"><span>&nbsp;:&nbsp;</span><select>${optlist}</select><br>`
     document.getElementsByClassName("schema")[0].innerHTML = `<button onclick="editorEvent('add');">+</button>`;

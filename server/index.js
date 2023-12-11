@@ -1,50 +1,35 @@
 const { AceBaseServer } = require('acebase-server');
-const uwebsockets = require('uWebSockets.js');
-const fs = require('fs');
 const dbname = 'crm';
-const server = new AceBaseServer(dbname, { host: 'localhost', port: 5757 });
+//https not included because running locally
+const server = new AceBaseServer(dbname, { host: 'localhost', port: 3000, authentication: {
+    defaultAdminPassword: 'password'
+}});
+//serve stuff
 server.on("ready", () => {
     console.log("SERVER ready");
 });
-uwebsockets.App().any('/*', (res, req) => {
-    let p = req.getUrl();
-    if(p === '/') p = '/index.html';
-    if(fs.existsSync(`./client${p}`)) {
-        let contentType = 'text/plain';
-        if (p.endsWith('.html')) {
-            contentType = 'text/html';
-        }
-        else if (p.endsWith('.js')) {
-            contentType = 'application/javascript';
-        }
-        else if (p.endsWith('.css')) {
-            contentType = 'text/css';
-        }
-        else if (p.endsWith('.png')) {
-            contentType = 'image/png';
-        }
-        else if (p.endsWith('.jpg')) {
-            contentType = 'image/jpeg';
-        }
-        else if (p.endsWith('.ico')) {
-            contentType = 'image/x-icon';
-        }
-        else if(p.endsWith('.ttf')) {
-            contentType = 'font/ttf';
-        }
-        res.writeHeader('Content-Type', contentType);
-        res.end(fs.readFileSync(`./client${p}`));
-    } else {
-        res.end("huh !?!?!");
-    }
-}).listen(3000, (listenSocket) => {
-    if (listenSocket) {
-        console.log("is run 3000");
-    }
-    else {
-        throw new Error('Failed to listen');
-    }
+server.router.get("/info/crm", (req, res) => {
+    res.sendStatus(200);
 });
+server.router.get('/', (req, res) => {
+    res.sendFile(__dirname+"/client/index.html");
+});
+server.router.get('/modules/*', (req, res) => {
+    res.sendFile(__dirname+"/client/modules/"+req.params[0]);
+});
+server.router.get('/libs/*', (req, res) => {
+    res.sendFile(__dirname+"/client/libs/"+req.params[0]);
+});
+server.router.get('/index.css', (req, res) => {
+    res.sendFile(__dirname+"/client/index.css");
+});
+server.router.get('/iosevka.ttf', (req, res) => {
+    res.sendFile(__dirname+"/client/iosevka.ttf");
+});
+server.router.get('/main.js', (req, res) => {
+    res.sendFile(__dirname+"/client/main.js");
+});
+//addtional shutdown handler because acebase doesnt do it
 process.on('SIGINT', () => {
     server.shutdown().then(() => {
         console.log("SERVER shutdown");

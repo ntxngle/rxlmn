@@ -1,8 +1,10 @@
+//common ui functions
 const uiState = {
     page: 0,
     popup: null,
-    popupLife: 0,
+    popupLife: 0, //immidiate close prevention
 }
+//select option cache
 let mcache = {};
 const pagemap = {
     "login": 0,
@@ -14,6 +16,7 @@ const pagemap = {
 import { applyUserInfo } from "userinfo";
 import db from "db";
 export function switchPage(page){
+    //hide all pages, make the one we want visible
     let pages = document.getElementsByClassName("page");
     for(let i = 0; i < pages.length; i++){
         pages[i].classList.add("hidden");
@@ -25,9 +28,11 @@ export function switchPage(page){
     document.getElementsByClassName("page")[page].classList.remove("hidden");
 }
 export function trueSwitch(page){
+    //human readable page names
     switchPage(pagemap[page]);
 }
 export function popUp(n){
+    //show popup n
     uiState.popup = n;
     uiState.popupLife = 1;
     setInterval(function(){
@@ -40,6 +45,7 @@ export function popUp(n){
     document.getElementsByClassName("popup")[n].classList.remove("hidden");
 }
 export function interaction(){
+    //close popup if clicked/typed
     if(uiState.popupLife == 1) return;
     if(uiState.popup !== null){
         document.getElementsByClassName("popup")[uiState.popup].classList.add("hidden");
@@ -47,7 +53,9 @@ export function interaction(){
     }
 }
 function updateDynamicOptions(page){
-    if(page<3) return;
+    //replace dynamic options with data from db
+    if(page<3) return; //ignore ones that never have it + load before login
+    //mcache is a cache for the options, so we don't have to load them every time
     let options = document.getElementsByClassName("page")[page].getElementsByClassName("dboptions");
     for(let i=0;i<options.length;i++){
         if(options[i].getAttribute("data-name") == "allschemas"){
@@ -71,7 +79,7 @@ function updateDynamicOptions(page){
                 console.log("[UI] allkeys cache hit");
                 continue;
             }
-            let schemas = db.ref("/schemas").get().then(schemas => {
+            db.ref("/schemas").get().then(schemas => {
                 let html = "<option value=\"placeholder\" selected disabled>Select Key</option>";
                 schemas = schemas.val();
                 for(let i in schemas){

@@ -1,3 +1,4 @@
+//loads user info into the page
 let userinfo = {
     name: null,
     email: null

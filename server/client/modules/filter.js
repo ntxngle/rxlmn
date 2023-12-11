@@ -1,3 +1,4 @@
+//interactive stuff for filter page
 import db from "db";
 const filterhelp = {
     "==": "Equal to (Matches the exact value)",
@@ -16,8 +17,10 @@ const filterhelp = {
 let operations = [];
 export async function eventTrigger(e,t){
     if(e=="filterHelp"){
+        //show help for selected operator
         document.getElementById("search-filterhelp").textContent = filterhelp[t.value];
     } else if(e=="filterSubmit"){
+        //add filter to stack
         let key = t.parentElement.getElementsByTagName("select")[0].value;
         let op = t.parentElement.getElementsByTagName("select")[1].value;
         let val = t.parentElement.getElementsByTagName("input")[0].value;
@@ -29,16 +32,17 @@ export async function eventTrigger(e,t){
             document.getElementById("search-validation").textContent = "Please enter a value";
             return;
         }
-        console.log("[FILTER] Key: "+key+" Op: "+op+" Val: "+val);
         operations.push({"key":key,"op":op,"val":val});
         showOperations();
     } else if(e=="execute"){
+        //execute filter stack
         if(operations.length == 0){
             document.getElementById("search-validation").textContent = "No operations to execute";
             return;
         }
         document.getElementById("search-validation").textContent = "erm...something is POPPING !!  ! !! ! ! !";
-        let total = await db.query("/partners")
+        let total = await db.query("/partners");
+        //uses the db.query() function to filter and sort the data
         for(let i in operations){
             if(operations[i].op=="sort"){
                 total = await total.sort(operations[i].key,operations[i].val);
@@ -65,6 +69,7 @@ export async function eventTrigger(e,t){
 
         });
     } else if(e=="sortSubmit"){
+        //add sort to stack
         let key = t.parentElement.getElementsByTagName("select")[0].value;
         let val = t.parentElement.getElementsByTagName("input")[0].checked ? true : false;
         if(key == "placeholder"){
@@ -81,6 +86,7 @@ export async function eventTrigger(e,t){
     }
 }
 function showOperations(){
+    //render operations stack
     let template = `<div class="search-operation"><button onclick="deleteSearch(%%%);"> </button><p>FILTER: $$$</p></div>`;
     let ops = document.getElementsByClassName("search-operation");
     for(let i = ops.length-1; i >= 0; i--){
@@ -96,6 +102,7 @@ function showOperations(){
         document.getElementById("search-searchop-insertafter").insertAdjacentHTML("beforebegin",`<div class="search-operation no-op"><button> </button><p>no operations. try adding one from below</p></div>`);
     }
 }
+//should be in main.js whatever
 window.deleteSearch = function(n){
     operations.splice(n,1);
     showOperations();

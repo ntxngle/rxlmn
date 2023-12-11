@@ -3,7 +3,8 @@ import { switchPage, popUp, interaction } from 'ui';
 import { eventTrigger } from 'filter';
 import { editorEvent } from 'editor';
 import { addEvent } from 'add'
-if(localStorage.getItem('token') !== undefined) {
+//remember login
+if(localStorage.getItem('token') != undefined) {
     setTimeout(loginToken, 200);
     switchPage(2);
 } else {
@@ -11,6 +12,8 @@ if(localStorage.getItem('token') !== undefined) {
 }
 const loginButton = document.getElementById('login');
 loginButton.addEventListener('click', login);
+
+//add event listeners to nav buttons
 
 let nav = document.getElementsByClassName("nav-home");
 for(let i = 0; i < nav.length; i++){
@@ -32,6 +35,19 @@ nav = document.getElementsByClassName("nav-add");
 for(let i = 0; i < nav.length; i++){
     nav[i].addEventListener("click", function(){switchPage(5)});
 }
+nav = document.getElementsByClassName("nav-account");
+for(let i = 0; i < nav.length; i++){
+    nav[i].addEventListener("click", function(){
+        localStorage.clear();
+        location.reload();
+    });
+}
+nav = document.getElementsByClassName("nav-help");
+for(let i = 0; i < nav.length; i++){
+    nav[i].addEventListener("click", function(){switchPage(6)});
+}
+
+//'expose' functions to the window
 
 window.searchEvent = function(e,t){
     eventTrigger(e,t);

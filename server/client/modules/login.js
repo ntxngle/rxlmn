@@ -1,7 +1,9 @@
+//interactive stuff for login page
 import db from 'db';
 import { switchPage } from 'ui';
 import { setUserInfo, applyUserInfo } from 'userinfo';
 export function login() {
+    //validation for email+password
     const email = document.getElementById('email').value;
     if (!email.endsWith('@palmbeachschools.org') && email !== 'admin') {
         document.getElementById('validation').innerText = 'Not a palmbeachschools.org email address';
@@ -31,6 +33,7 @@ export function login() {
     });
 }
 function announceSignIn(user) {
+    //yap about signing in
     console.log('Signed in as', user.user.username);
     setUserInfo({
         name: user.user.username,
@@ -40,6 +43,7 @@ function announceSignIn(user) {
     switchPage(1);
 }
 export function loginToken(){
+    //login with token
     if(db.connected) {
         console.log("CONNCTEDE IGID");
         db.auth.signInWithToken(localStorage.getItem('token')).then(user => {
@@ -55,6 +59,7 @@ export function loginToken(){
             switchPage(0);
         });
     } else {
+        //wait for connection
         console.log("NUHU UH");
         db.auth.setAccessToken(localStorage.getItem('token'));
         db.once('signin', announceSignIn);
