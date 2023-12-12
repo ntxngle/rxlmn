@@ -13,9 +13,10 @@
     "targets": [
       "node18-win-x64"
     ],
-    "outpath": "bin"
+    "outpath": "bin/"
   },
   "scripts": {
+    "installandrun": "npm install && cd server && node index.js",
     "start": "node server/index.js"
   },
   "keywords": [],
