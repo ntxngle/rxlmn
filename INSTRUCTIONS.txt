@@ -1,0 +1,5 @@
+Pre built binaries (easier)
+Go to the `bin` folder. Double click CLICKME.bat and a terminal should start. Now navigate to "localhost:3000" in a browser.
+
+Nodejs
+Install nodejs from [here](https://nodejs.org/dist/v18.12.0/node-v18.12.0-x64.msi). Make sure (when prompted in the installer) to install NPM as well. Follow instructions and install. Go to the server folder. Double click STARTSERVER.bat and wait for it to finish. Now navigate to "localhost:3000" in a browser.
