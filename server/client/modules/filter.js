@@ -40,7 +40,7 @@ export async function eventTrigger(e,t){
             document.getElementById("search-validation").textContent = "No operations to execute";
             return;
         }
-        document.getElementById("search-validation").textContent = "erm...something is POPPING !!  ! !! ! ! !";
+        document.getElementById("search-validation").textContent = "executing search";
         let total = await db.query("/partners");
         //uses the db.query() function to filter and sort the data
         for(let i in operations){
