@@ -1,0 +1,1 @@
+start cmd /k npm install && cd server && node index.js
